@@ -2,7 +2,7 @@
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item">
-        <router-link :to="{name: 'store'}" class="nav-link" href="index.html">
+        <router-link :to="{name: 'store'}" class="nav-link">
           <i class="fas fa-home"></i>
           <span>Home</span>
         </router-link>
@@ -10,7 +10,7 @@
       <li class="nav-heading">Top</li>
 
       <li class="nav-item">
-        <a id="high_score" class="nav-link collapsed" href="users-profile.html">
+        <a id="high_score" class="nav-link collapsed">
           <i class="fas fa-trophy"></i>
           <span>Game high score</span>
         </a>

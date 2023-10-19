@@ -41,6 +41,13 @@
 
 <script>
 export default {
+  props: ["cart"],
+  watch: {
+    cart(newValue) {
+      console.log("Data changed:", newValue);
+      this.$emit("data-updated", newValue);
+    },
+  },
   methods: {
     async removeApp() {
       console.log("click");
@@ -60,7 +67,23 @@ export default {
         ).json();
         console.log(response);
         alert(response.message);
-        window.location.reload();
+        // cập nhật lại cart
+        try {
+          const response = await (
+            await fetch("http://localhost:3000/api/user/cart", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${accessToken}`,
+              },
+            })
+          ).json();
+          if (response.success) {
+            this.$emit("cart-updated", response.apps);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       } catch (error) {
         console.log(error);
       }

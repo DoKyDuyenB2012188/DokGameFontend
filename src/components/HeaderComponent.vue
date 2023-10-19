@@ -71,7 +71,9 @@
             href="#"
           >
             <i class="fas fa-shopping-cart"></i>
-            <span class="badge bg-success badge-number">3</span> </router-link
+            <span class="badge bg-success badge-number">{{
+              this.itemInCart
+            }}</span> </router-link
           ><!-- End Messages Icon -->
         </li>
         <!-- End Cart Nav -->
@@ -82,9 +84,9 @@
             data-bs-toggle="dropdown"
           >
             <i class="fas fa-user"></i>
-            <span class="d-none d-md-block dropdown-toggle ps-2"
-              >{{this.username}}</span
-            > </a
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{
+              this.username
+            }}</span> </a
           ><!-- End Profile Iamge Icon -->
 
           <ul
@@ -108,7 +110,8 @@
             </li>
 
             <li>
-              <router-link :to="{name: 'update'}"
+              <router-link
+                :to="{ name: 'update' }"
                 class="dropdown-item d-flex align-items-center"
               >
                 <i class="bi bi-gear"></i>
@@ -133,7 +136,11 @@
             </li>
 
             <li>
-              <a @click="handleOut" class="dropdown-item d-flex align-items-center" href="#">
+              <a
+                @click="handleOut"
+                class="dropdown-item d-flex align-items-center"
+                href="#"
+              >
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -156,6 +163,7 @@ export default {
     return {
       login: false,
       username: "",
+      itemInCart: "",
     };
   },
   methods: {
@@ -173,7 +181,7 @@ export default {
         $(".search-bar").addClass("search-bar-show");
       }
     },
-    async handleOut(){
+    async handleOut() {
       const response = await ServiceAuth.logout();
       console.log(response.message);
       window.localStorage.clear();
@@ -192,16 +200,43 @@ export default {
               },
             })
           ).json();
-          if(result.success){
-            this.username = window.localStorage.getItem('user');
+          if (result.success) {
+            this.username = window.localStorage.getItem("user");
             this.login = true;
-          }//else{
+          } //else{
           //   const response = await ServiceAuth.refresh_token();
           //   if(response.accessToken){
           //     window.localStorage.setItem('accessToken', response.accessToken);
           //     this.$router.push("/");
           //   }
           // }
+          if (this.login === true) {
+            const accessToken = window.localStorage.getItem("accessToken");
+            try {
+              const response = await (
+                await fetch("http://localhost:3000/api/user/cart", {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${accessToken}`,
+                  },
+                })
+              ).json();
+              if (response.success) {
+                console.log("success");
+                window.localStorage.setItem(
+                  `${this.username}_cart`,
+                  response.apps.length
+                );
+                const items = window.localStorage.getItem(
+                  `${this.username}_cart`
+                );
+                this.itemInCart = items;
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
         }
       } catch (error) {
         console.log(error);

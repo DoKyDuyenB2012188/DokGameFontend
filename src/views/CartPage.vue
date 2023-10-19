@@ -13,11 +13,17 @@
                 class="d-flex justify-content-between align-items-center mb-4"
               >
                 <div>
-                  <p class="mb-0">You have {{cart.length}} items in your cart</p>
+                  <p class="mb-0">
+                    You have {{ cart.length }} items in your cart
+                  </p>
                 </div>
               </div>
               <div v-for="app in cart" :key="app.appId._id">
-                <CardInCartVue :app="app"/>
+                <CardInCartVue
+                  :cart="cart"
+                  @cart-updated="handleDataUpdated"
+                  :app="app"
+                />
               </div>
             </div>
           </div>
@@ -28,10 +34,10 @@
   <!-- End #main -->
 </template>
 <script>
-import CardInCartVue from "@/components/CardInCart.vue"
+import CardInCartVue from "@/components/CardInCart.vue";
 export default {
-  components:{
-    CardInCartVue
+  components: {
+    CardInCartVue,
   },
   data() {
     return {
@@ -39,6 +45,9 @@ export default {
     };
   },
   methods: {
+    handleDataUpdated(updatedData) {
+      this.cart = updatedData
+    },
     async showCart() {
       const accessToken = window.localStorage.getItem("accessToken");
       try {

@@ -32,13 +32,8 @@ export default {
   methods: {
     async getAllApps() {
       try {
-       const response = await(await fetch("http://localhost:3000/api/store", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })).json();
-        if(response.success){
+        const response = await ServiceStore.getAllApps();
+        if (response.success) {
           this.apps = await response.data;
         }
       } catch (error) {

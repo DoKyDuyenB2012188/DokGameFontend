@@ -16,5 +16,11 @@ class ServiceAuth {
   async refresh_token() {
     return (await this.api.post("/refresh_token")).data;
   }
+  async auth_protected(accessToken) {
+    const headers = {
+      authorization: `Bearer ${accessToken}`,
+    };
+    return (await this.api.post("/auth/protected", {}, { headers })).data;
+  }
 }
 export default new ServiceAuth();

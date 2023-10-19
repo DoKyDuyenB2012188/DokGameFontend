@@ -150,11 +150,7 @@
         <p class="m-0">Release date:</p>
         <p class="text-dark m-0">{{ app.release_date.date }}</p>
       </div>
-      <button
-        @click="handleClick"
-        class="button-48"
-        role="button"
-      >
+      <button @click="handleClick" class="button-48" role="button">
         <span class="text">Add cart</span>
       </button>
     </div>
@@ -200,6 +196,13 @@ export default {
             })
           ).json();
           alert(result.message);
+          if (result.success) {
+            console.log("up store");
+            const username = window.localStorage.getItem("user");
+            let items = window.localStorage.getItem(`${username}_cart`);
+            items = parseInt(items) + 1;
+            window.localStorage.setItem(`${username}_cart`, items);
+          }
         } else {
           alert("You must logged");
         }

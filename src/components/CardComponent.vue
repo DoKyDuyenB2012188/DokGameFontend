@@ -46,7 +46,7 @@
             :src="this.app.header_image"
             class="d-block w-100"
             alt="..."
-            style="border-radius: 0.23rem 0.23rem 0px 0px"
+            style="border-radius: 0.23rem 0.23rem 0px 0px; width: 298px; height: 139px"
           />
         </div>
         <div
@@ -91,7 +91,7 @@
             :src="screenshot.path_thumbnail"
             class="d-block w-100"
             alt="..."
-            style="border-radius: 0.23rem 0.23rem 0px 0px"
+            style="border-radius: 0.23rem 0.23rem 0px 0px; width: 298px; height: 139px"
           />
         </div>
 
